@@ -1,12 +1,29 @@
 #include "Header.h"
 using namespace std;
 int countPart=0; //contador de particulas
-SistemaParticulas sp;
 Particula colisao[5]; //tratar colisao entre as 5 partículas mais próximas
 int indiceColisao;
 GLfloat window_width=500;
 GLfloat window_height=500;
 int estado;
+class SistemaParticulas {
+public:
+	Particula p[1000]; //por enquanto, definido estaticamente para fins de teste
+					   //int n; //numero de particulas
+	float t; //timestep
+			 //int maxP; //numero m�ximo de part�culas
+			 //float *forcas; //ver se o valor de acumulador de for�as � float
+	Ponto origem;
+
+	Ponto getOrigem() {
+		return origem;
+	}
+
+	Particula getParticula(int index) {
+		return p[index];
+	}
+};
+SistemaParticulas sp;
 /*class SistemaParticulas {
 public:
 	SistemaParticulas(int maxParts, Vector3 origem);
@@ -33,7 +50,7 @@ bool mataParticula(Particula p) { //verifica se a partícula já passou da tela
 	return retorno;
 }
 
-void myreshape(GLsizei w, GLsizei h)
+/*void myreshape(GLsizei w, GLsizei h)
 {
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
@@ -41,7 +58,7 @@ void myreshape(GLsizei w, GLsizei h)
 	window_width = (GLfloat)w;
 	window_height = (GLfloat)h;
 	glOrtho(0, window_width, 0, window_height, -1.0, -1.0);
-}
+}*/
 
 void geraParticula() {
 	std::cout << "geraParticula" << std::endl;
@@ -50,23 +67,28 @@ void geraParticula() {
 		std::cout << "passei do if" << std::endl;
 		glClearColor(1.0, 1.0, 1.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
-		
+		std::cout << "Origem do sistema em x:" << sp.getOrigem().x << std::endl;
+		std::cout << "Origem do sistema em y:" << sp.getOrigem().y << std::endl;
 		for (int i = 0; i < 15; i++) {
 			Ponto aux = sp.p[i].posicao;
-			aux.x = sp.origem.x + (rand() % 50); //tentar evitar que todos os pontos nasçam exatamente no mesmo lugar
-			aux.y = sp.origem.y;
+			std::cout << "Ponto no indice " << i <<" "<< sp.p[i].posicao.x << endl;
+			std::cout << "Ponto no indice " << i <<" "<< sp.p[i].posicao.y << endl;
+			std::cout << "Velocidade da partícula " << i << " " << sp.p[i].velocidade.y << endl;
+			aux.x = sp.getOrigem().x + (rand() % 50); //tentar evitar que todos os pontos nasçam exatamente no mesmo lugar
+			aux.y = sp.getOrigem().y;
 			std::cout << aux.x << std::endl;
 			std::cout << aux.y << std::endl;
 			glColor3f(0, 0, 0);
-			glPointSize(10.0f);
+			glPointSize(3.0f);
 			glBegin(GL_POINTS);
 			glVertex2f(aux.x,aux.y); //gera partícula com ponto 2d
 			glEnd();
+			sp.p[i] = aux;
 			countPart++; //atualiza contador de partículas
 		}
 		std::cout << "countPart"+countPart << std::endl;
 	}
-	glFlush();
+	//glFlush();
 }
 
 void trataColisao(Particula part, int indice) {
@@ -113,10 +135,9 @@ void loop(int id)
 
 void myinit() {
 	std::cout << "cheguei no myinit" << std::endl;
+	
 	for (int i = 0; i < 1000; i++) {
-		Particula temp_p = {}; //inicializa as particulas com todos os campos zerados
-		Ponto veloc = { 1.5,1.5 };//1,5m/s de velocidade
-		temp_p.velocidade = veloc;
+		Particula temp_p = {};//supondo que dessa forma inicializa os pontos de posicao em 0.0 p/ x e y e velocidade=1.5
 		sp.p[i] = temp_p;
 		}
 	std::cout << "acabou o for" << std::endl;
@@ -126,7 +147,6 @@ void myinit() {
 	}
 	indiceColisao = 0;
 	estado = MODIFIED;
-	loop(0);
 	//geraParticula();
 }
 
@@ -139,8 +159,10 @@ int main(int argc, char **argv)
 	glutInitWindowSize(1080,720);
 	glutCreateWindow("teste");
 	glutDisplayFunc(geraParticula);
-	glutReshapeFunc(myreshape);
 	myinit();
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	loop(0);
 	glutMainLoop();
 	return 0;
 }

@@ -4,6 +4,7 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 #define MODIFIED -1
 #define IDLE -2
@@ -11,6 +12,7 @@
 struct Ponto {
 	GLfloat x;
 	GLfloat y;
+	Ponto(GLfloat x = 0.0, GLfloat y = 0.0) :x(x), y(y) {}
 };
 
 struct Particula {
@@ -21,16 +23,10 @@ struct Particula {
 	//Vector3 velocidade;
 	//Vector3 aceleracao;
 	Ponto velocidade;
-	float tamanho;
+	//float tamanho;
 	//bool chegou; //para saber se chegou no ponto
 	//float mudaTamanho; //size = size_antigo+taxa_de_varia�ao*random
+	Particula(Ponto posicao = {0,0}, Ponto velocidade = { 1.5,1.5 }) :posicao(posicao),
+		velocidade(velocidade) {}
 };
 
-struct SistemaParticulas {
-	Particula p[1000]; //por enquanto, definido estaticamente para fins de teste
-					   //int n; //numero de particulas
-	float t; //timestep
-			 //int maxP; //numero m�ximo de part�culas
-	float *forcas; //ver se o valor de acumulador de for�as � float
-	Ponto origem;
-};
