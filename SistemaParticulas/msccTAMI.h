@@ -1,4 +1,5 @@
-﻿#include "GL/glut.h"
+﻿#include <GL\glew.h>﻿
+#include <GL\freeglut.h>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -26,7 +27,6 @@ struct Particula {
 	//float tamanho;
 	//bool chegou; //para saber se chegou no ponto
 	//float mudaTamanho; //size = size_antigo+taxa_de_varia�ao*random
-	Particula(Ponto posicao = {0,0}, Ponto velocidade = { 1.5,1.5 }) :posicao(posicao),
+	Particula(Ponto posicao = { 0,0 }, Ponto velocidade = { 1.5,1.5 }) :posicao(posicao),
 		velocidade(velocidade) {}
 };
-
