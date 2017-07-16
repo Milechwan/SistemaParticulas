@@ -61,27 +61,24 @@ glOrtho(0, window_width, 0, window_height, -1.0, -1.0);
 void geraParticula() {
 	std::cout << "geraParticula" << std::endl;
 	std::cout << countPart << std::endl;
-	if (countPart < 1000) {
-		std::cout << "passei do if" << std::endl;
-		glClearColor(1.0, 1.0, 1.0, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
-		for (int i = 0; i < 15; i++) {
-			Ponto aux = sp.p[i].posicao;
-			aux.x = sp.getOrigem().x + (rand() % 50); //tentar evitar que todos os pontos nasçam exatamente no mesmo lugar
-			aux.y = sp.getOrigem().y;
-			glColor3f(0, 0, 0);
-			glPointSize(3.0f);
+	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	if (countPart < 10) {
+			GLfloat aux_x = (rand() % 50);
+			GLfloat aux_y = sp.getOrigem().y;
+			glColor3f(0.5, 0.5, 0.5);
+			glPointSize(6.0f);
 			glBegin(GL_POINTS);
-			glVertex2f(aux.x, aux.y); //gera partícula com ponto 2d
+			glVertex2f(aux_x,aux_y); //gera partícula com ponto 2d
 			glEnd();
-			sp.p[i] = aux;
+			sp.p[countPart].posicao.x = aux_x;
+			std::cout << sp.getParticula(countPart).posicao.x << std::endl;
 			countPart++; //atualiza contador de partículas
-		}
-		std::cout << "CountPart: " << countPart << std::endl;
 	}
+
 	//glLoadIdentity();
-	glutSwapBuffers();
-	//glFlush();
+	//glutSwapBuffers();
+	glFlush();
 }
 
 void trataColisao(Particula part, int indice) {
@@ -128,7 +125,14 @@ void loop(int id)
 
 void myinit() {
 	std::cout << "cheguei no myinit" << std::endl;
+	glClearColor(0, 0, 0, 0); // moved this line to be in the init function
+	glDisable(GL_DEPTH_TEST);
 
+	// next four lines are new
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0.0, glutGet(GLUT_WINDOW_WIDTH) - 1, glutGet(GLUT_WINDOW_HEIGHT) - 1, 0, -1.0, 1.0);
+	glMatrixMode(GL_MODELVIEW);
 	for (int i = 0; i < 1000; i++) {
 		Particula temp_p = {};//supondo que dessa forma inicializa os pontos de posicao em 0.0 p/ x e y e velocidade=1.5
 		sp.p[i] = temp_p;
@@ -149,19 +153,18 @@ int main(int argc, char **argv)
 	sp.origem.y = 120;
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-	glViewport(0, 0, glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT));
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	//glViewport(0, 0, glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT));
+	//glLoadIdentity();
 	glutInitWindowSize(1080, 720);
 	glutCreateWindow("teste");
+	myinit();
 	glutDisplayFunc(geraParticula);
 	GLenum err = glewInit();
 	if (GLEW_OK != err) {
 		std::cout << "Glew error" << std::endl;
 		return 1;
 	}
-	myinit();
-	loop(0);
+//	loop(0);
 	glutMainLoop();
 	return 0;
 }

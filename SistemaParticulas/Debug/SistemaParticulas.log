@@ -1,4 +1,5 @@
 ﻿  msccTAMI.cpp
-c:\users\usuário\documents\visual studio 2015\projects\sistemaparticulas\sistemaparticulas\mscctami.h(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  SistemaParticulas.vcxproj -> c:\users\usuário\documents\visual studio 2015\Projects\SistemaParticulas\Debug\SistemaParticulas.exe
-  SistemaParticulas.vcxproj -> c:\users\usuário\documents\visual studio 2015\Projects\SistemaParticulas\Debug\SistemaParticulas.pdb (Partial PDB)
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.h(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(78): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+  SistemaParticulas.vcxproj -> C:\Users\Usuário\Documents\GitHub\SistemaParticulas\SistemaParticulas\Debug\SistemaParticulas.exe
+  SistemaParticulas.vcxproj -> C:\Users\Usuário\Documents\GitHub\SistemaParticulas\SistemaParticulas\Debug\SistemaParticulas.pdb (Partial PDB)
