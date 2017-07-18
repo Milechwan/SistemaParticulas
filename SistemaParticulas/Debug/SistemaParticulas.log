@@ -1,5 +1,7 @@
 ﻿  msccTAMI.cpp
 c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.h(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(102): warning C4244: 'initializing': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(77): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(92): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(124): warning C4244: 'initializing': conversion from 'int' to 'GLfloat', possible loss of data
   SistemaParticulas.vcxproj -> C:\Users\Usuário\Documents\GitHub\SistemaParticulas\SistemaParticulas\Debug\SistemaParticulas.exe
   SistemaParticulas.vcxproj -> C:\Users\Usuário\Documents\GitHub\SistemaParticulas\SistemaParticulas\Debug\SistemaParticulas.pdb (Partial PDB)

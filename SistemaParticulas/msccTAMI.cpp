@@ -61,24 +61,47 @@ glOrtho(0, window_width, 0, window_height, -1.0, -1.0);
 }*/
 
 void trataColisao(Particula part, int indice) {
-	for (int i = indice; i < countPart && indiceColisao<5; i++) {
-		GLfloat distancia_x = part.posicao.x - sp.p[i].posicao.x;
-		GLfloat distancia_y = part.posicao.y - sp.p[i].posicao.y;
-		GLfloat distancia = sqrt(pow(distancia_x, 2) - pow(distancia_y, 2));
-		if (distancia <= 2) {//testar esse valor!
-			colisao[indiceColisao] = sp.p[i];
-			sp.p[i].posicao.x = sp.p[i].posicao.x + (rand()%10);
+	if (indice <= floor(countPart / 2)) {
+		for (int i = indice; i < indice+5 && indice + 5<countPart && indiceColisao<5; i++) {//ver colisão entre quase todas as partículas, considerando que possa colidir até com outras 5
+			GLfloat distancia_y = part.posicao.y - sp.p[i].posicao.y; 
+			GLfloat distancia_x = part.posicao.x - sp.p[i].posicao.x;
+			GLfloat distancia = sqrt(pow(distancia_y, 2) + pow(distancia_x, 2));
+			std::cout << "Distância c/ indice " << i << ": " <<distancia<< std::endl;
+			/*if (aux_x <= 4) {//testar esse valor!
+			//colisao[indiceColisao] = sp.p[i];
+			std::cout << "Colidiu no eixo x no indice " << i << std::endl;
+			sp.p[i].posicao.x = sp.p[i].posicao.x + ((aux_x)*1.5);//testando o valor, já que a partícula tem tamanho 3
 			indiceColisao++;
+			}*/
+			if (distancia <=4) {
+				sp.p[i].posicao.y = sp.p[i].posicao.y - ((distancia)*1.5);
+				indiceColisao++;
+			}
 		}
 	}
+	else {
+		for (int j = countPart - 1; j > indice-5 && indice-5>=0 && indiceColisao < 5; j--) {
+			GLfloat distancia_y = sp.p[j].posicao.y - part.posicao.y;
+			GLfloat distancia_x = sp.p[j].posicao.x - part.posicao.x;
+			GLfloat distancia = sqrt(pow(distancia_y, 2)+pow(distancia_x,2));
+			std::cout << "Distancia c/ indice "<< j<< ": " << distancia << std::endl;
+			//GLfloat aux_y = sqrt(pow(distancia_y, 2));
+			//GLfloat aux_x = sqrt(pow(distancia_x, 2));
+			if (distancia <= 4) {
+				std::cout << "Colidiu no eixo y no indice " << j << std::endl;
+				sp.p[j].posicao.x = sp.p[j].posicao.x + ((distancia)*1.5);
+				indiceColisao++;
+			}
+		}
+	}		
 
 }
 void atualizaParticula() {
 	for (int i = 0; i < countPart; i++) {
 		if (!mataParticula(sp.p[i])) {//primeiro verifica se a partícula vai ser eliminada
+			trataColisao(sp.p[i], i + 1);
 			sp.p[i].posicao.x = sp.p[i].posicao.x + sp.p[i].velocidade.x;
 			sp.p[i].posicao.y = sp.p[i].posicao.y + (rand() % 16) + sp.p[i].velocidade.y;
-			trataColisao(sp.p[i],i+1);
 		}
 		else {
 			for (int j = i; j < countPart - 1; j++) { //todas as partículas de posições posteriores são migradas
@@ -91,15 +114,15 @@ void atualizaParticula() {
 }
 
 void geraParticula() {
-	std::cout << "geraParticula" << std::endl;
-	std::cout << countPart << std::endl;
+	//std::cout << "geraParticula" << std::endl;
+	std::cout << "CountPart: "<< countPart << std::endl;
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 	//glLoadIdentity();
-	if (countPart < 19 && !atualizarParticula) {
+	if (countPart < 100 && !atualizarParticula) {
 		 antigoCount = countPart;
 		for (int i = countPart; i < (antigoCount + 9) && (antigoCount+9)<1000; i++) {
-			GLfloat aux_x = sp.getOrigem().x;
-			GLfloat aux_y = (rand() % 400)+1;
+			GLfloat aux_x = (rand() % 400) + 1;
+			GLfloat aux_y = sp.getOrigem().y;
 			glColor3f(0.5, 0.5, 0.5);
 			glPointSize(3.0f);
 			glBegin(GL_POINTS);
@@ -118,7 +141,7 @@ void geraParticula() {
 			glVertex2f(aux_x, aux_y); 
 			glEnd();
 		}
-		std::cout << "gerei" << std::endl;
+		//std::cout << "gerei" << std::endl;
 		atualizarParticula = true;
 	}
 	else if (atualizarParticula) {
@@ -134,7 +157,7 @@ void geraParticula() {
 			glVertex2f(ax, ay); 
 			glEnd();
 		}
-		std::cout << "Como proceder?" << std::endl;
+		//std::cout << "Como proceder?" << std::endl;
 	}
 
 	//glLoadIdentity();
@@ -186,8 +209,8 @@ void myinit() {
 
 int main(int argc, char **argv)
 {
-	sp.origem.x = 10;
-	sp.origem.y = 0;
+	sp.origem.x = 0;
+	sp.origem.y = 2;
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	//glViewport(0, 0, glutGet(GLUT_SCREEN_WIDTH), glutGet(GLUT_SCREEN_HEIGHT));
