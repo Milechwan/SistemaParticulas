@@ -61,7 +61,7 @@ glOrtho(0, window_width, 0, window_height, -1.0, -1.0);
 }*/
 
 void trataColisao(Particula part, int indice) {
-	for (int i = indice; indice < countPart && indiceColisao<5; i++) {
+	for (int i = indice; i < countPart && indiceColisao<5; i++) {
 		GLfloat distancia_x = part.posicao.x - sp.p[i].posicao.x;
 		GLfloat distancia_y = part.posicao.y - sp.p[i].posicao.y;
 		GLfloat distancia = sqrt(pow(distancia_x, 2) - pow(distancia_y, 2));
@@ -78,7 +78,7 @@ void atualizaParticula() {
 		if (!mataParticula(sp.p[i])) {//primeiro verifica se a partícula vai ser eliminada
 			sp.p[i].posicao.x = sp.p[i].posicao.x + sp.p[i].velocidade.x;
 			sp.p[i].posicao.y = sp.p[i].posicao.y + (rand() % 16) + sp.p[i].velocidade.y;
-			//trataColisao(sp.p[i],i);
+			trataColisao(sp.p[i],i+1);
 		}
 		else {
 			for (int j = i; j < countPart - 1; j++) { //todas as partículas de posições posteriores são migradas
