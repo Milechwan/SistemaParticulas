@@ -61,8 +61,10 @@ glOrtho(0, window_width, 0, window_height, -1.0, -1.0);
 }*/
 
 void trataColisao(Particula part, int indice) {
+	std::cout << "Indice atual: "<< indice << std::endl;
+	std::cout << "Metade da contagem de part. :" << floor(countPart / 2) << std::endl;
 	if (indice <= floor(countPart / 2)) {
-		for (int i = indice; i < indice+5 && indice + 5<countPart && indiceColisao<5; i++) {//ver colisão entre quase todas as partículas, considerando que possa colidir até com outras 5
+		for (int i = indice; i < indice+4 && indice + 4<countPart && indiceColisao<5; i++) {//ver colisão entre quase todas as partículas, considerando que possa colidir até com outras 5
 			GLfloat distancia_y = part.posicao.y - sp.p[i].posicao.y; 
 			GLfloat distancia_x = part.posicao.x - sp.p[i].posicao.x;
 			GLfloat distancia = sqrt(pow(distancia_y, 2) + pow(distancia_x, 2));
@@ -73,27 +75,30 @@ void trataColisao(Particula part, int indice) {
 			sp.p[i].posicao.x = sp.p[i].posicao.x + ((aux_x)*1.5);//testando o valor, já que a partícula tem tamanho 3
 			indiceColisao++;
 			}*/
-			if (distancia <=4) {
-				sp.p[i].posicao.y = sp.p[i].posicao.y - ((distancia)*1.5);
+			if (distancia <=10 && indice-1!=i) {
+				sp.p[i].posicao.y = sp.p[i].posicao.y + ((distancia)*1.5);
+				sp.p[i].posicao.x = sp.p[i].posicao.x + ((distancia)*1.5);
 				indiceColisao++;
 			}
 		}
 	}
 	else {
-		for (int j = countPart - 1; j > indice-5 && indice-5>=0 && indiceColisao < 5; j--) {
+		for (int j = countPart - 1; j > indice-4 && indice-4>=0 && indiceColisao < 5; j--) {
 			GLfloat distancia_y = sp.p[j].posicao.y - part.posicao.y;
 			GLfloat distancia_x = sp.p[j].posicao.x - part.posicao.x;
 			GLfloat distancia = sqrt(pow(distancia_y, 2)+pow(distancia_x,2));
 			std::cout << "Distancia c/ indice "<< j<< ": " << distancia << std::endl;
 			//GLfloat aux_y = sqrt(pow(distancia_y, 2));
 			//GLfloat aux_x = sqrt(pow(distancia_x, 2));
-			if (distancia <= 4) {
-				std::cout << "Colidiu no eixo y no indice " << j << std::endl;
+			if (distancia <= 10 && indice-1!=j) {//indice-1 é o índice da partícula part, usada para comparações
+				std::cout << "Colidiu no indice " << j << std::endl;
 				sp.p[j].posicao.x = sp.p[j].posicao.x + ((distancia)*1.5);
+				sp.p[j].posicao.y = sp.p[j].posicao.y + ((distancia)*1.5);
 				indiceColisao++;
 			}
 		}
-	}		
+	}
+	indiceColisao = 0; //zera o contador para que consiga tratar colisões nas próximas iterações
 
 }
 void atualizaParticula() {
@@ -104,7 +109,10 @@ void atualizaParticula() {
 			sp.p[i].posicao.y = sp.p[i].posicao.y + (rand() % 16) + sp.p[i].velocidade.y;
 		}
 		else {
-			for (int j = i; j < countPart - 1; j++) { //todas as partículas de posições posteriores são migradas
+			std::cout << "Matei partícula: " << i << std::endl;
+			std::cout << "Posicao x: " << sp.p[i].posicao.x << std::endl;
+			std::cout << "Posicao y: " << sp.p[i].posicao.y << std::endl;
+			for (int j = i; j < countPart - 2; j++) { //todas as partículas de posições posteriores são migradas
 				sp.p[j] = sp.p[j + 1];
 			}
 			countPart--;
@@ -118,7 +126,7 @@ void geraParticula() {
 	std::cout << "CountPart: "<< countPart << std::endl;
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 	//glLoadIdentity();
-	if (countPart < 100 && !atualizarParticula) {
+	if (countPart >= 0 && !atualizarParticula) {
 		 antigoCount = countPart;
 		for (int i = countPart; i < (antigoCount + 9) && (antigoCount+9)<1000; i++) {
 			GLfloat aux_x = (rand() % 400) + 1;
