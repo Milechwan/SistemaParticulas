@@ -1,9 +1,9 @@
 ﻿  msccTAMI.cpp
 c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.h(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(79): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(80): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(95): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(96): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(132): warning C4244: 'initializing': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(52): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(56): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(67): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(71): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(108): warning C4244: 'initializing': conversion from 'int' to 'GLfloat', possible loss of data
   SistemaParticulas.vcxproj -> C:\Users\Usuário\Documents\GitHub\SistemaParticulas\SistemaParticulas\Debug\SistemaParticulas.exe
   SistemaParticulas.vcxproj -> C:\Users\Usuário\Documents\GitHub\SistemaParticulas\SistemaParticulas\Debug\SistemaParticulas.pdb (Partial PDB)

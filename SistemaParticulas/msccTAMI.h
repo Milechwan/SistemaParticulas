@@ -7,9 +7,7 @@
 #include <iostream>
 #include <vector>
 
-#define MODIFIED -1
-#define IDLE -2
-#define FPS 30
+
 struct Ponto {
 	GLfloat x;
 	GLfloat y;
