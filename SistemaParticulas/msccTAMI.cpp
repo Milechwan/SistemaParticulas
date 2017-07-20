@@ -3,6 +3,7 @@ using namespace std;
 int countPart = 0; //contador de particulas
 Ponto auxColisao[1000];
 int antigoCount;
+Ponto obstaculos[15];
 GLfloat window_width = 500;
 GLfloat window_height = 500;
 int countMortas;
@@ -55,6 +56,18 @@ void trataColisao(Particula part, int indice) {
 				k.x >= part.posicao.x - 4) {
 				sp.p[i].posicao.x = sp.p[i].posicao.x + distancia_x;
 			}
+			//colisão nos obstáculos
+			for (int a = 0; a < 15; a++) {
+				Ponto aux = obstaculos[a];
+				double distancia_y = sqrt(pow(part.posicao.y - aux.y, 2));
+				double distancia_x = sqrt(pow(part.posicao.x - aux.x, 2));
+				if (distancia_y <= 2 && distancia_x > 2) {
+					sp.p[i].posicao.x = sp.p[i].posicao.x + 2;
+				}
+				else if (distancia_y > 2 && distancia_x <= 2) {
+					sp.p[i].posicao.y = sp.p[i].posicao.y + 2;
+				}
+			}
 		}
 	}
 	else {
@@ -70,9 +83,20 @@ void trataColisao(Particula part, int indice) {
 				k.x >= part.posicao.x - 4) {
 				sp.p[j].posicao.x = sp.p[j].posicao.x + distancia_x;
 			}
+			//colisão nos obstáculos
+			for (int a = 0; a < 15; a++) {
+				Ponto aux = obstaculos[a];
+				double distancia_y = sqrt(pow(part.posicao.y - aux.y, 2));
+				double distancia_x = sqrt(pow(part.posicao.x - aux.x, 2));
+				if (distancia_y <= 2 && distancia_x>2) {
+					sp.p[j].posicao.x = sp.p[j].posicao.x + 2;
+				}
+				else if (distancia_y > 2 && distancia_x <= 2) {
+					sp.p[j].posicao.y = sp.p[j].posicao.y + 2;
+				}
+			}
 		}
 	}
-		
 }
 void atualizaParticula() {
 	for (int i = 0; i < countPart; i++) {
@@ -139,6 +163,13 @@ void geraParticula() {
 			glEnd();
 		}
 	}
+	for (int a = 0; a < 15; a++) {
+		glColor3f(0.0, 1.0, 0.0);
+		glPointSize(2.0f);
+		glBegin(GL_POINTS);
+		glVertex2f(obstaculos[a].x, obstaculos[a].y);
+		glEnd();
+	}
 	glFlush();
 }
 
@@ -170,6 +201,24 @@ void myinit() {
 	countMortas = 0;
 	atualizarParticula = false;
 	antigoCount = 0;
+	obstaculos[0].x = 200;
+	obstaculos[0].y = 200;
+	for (int j = 1; j < 5; j++) { //obstáculo 1
+		obstaculos[j].x = obstaculos[j-1].x + 2;
+		obstaculos[j].y = 200;
+	}
+	obstaculos[5].x = 100;
+	obstaculos[5].y = 100;
+	for (int k = 6; k < 10; k++) {//obstáculo 2
+		obstaculos[k].x = 100;
+		obstaculos[k].y = obstaculos[k - 1].y + 2;
+	}
+	obstaculos[10].x = 300;
+	obstaculos[10].y = 300;
+	for (int w = 11; w < 15; w++) {//obstáculo 3
+		obstaculos[w].x = obstaculos[w - 1].x + 2;
+		obstaculos[w].y = obstaculos[w - 1].y + 2;
+	}
 }
 
 int main(int argc, char **argv)
