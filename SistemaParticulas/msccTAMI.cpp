@@ -111,7 +111,7 @@ void atualizaParticula() {
 			trataColisao(sp.p[i], i + 1);
 		}
 		else {
-			for (int j = i; j < countPart - 1; j++) { //todas as partículas de posições posteriores são migradas
+			for (int j = i; j < countPart - 2; j++) { //todas as partículas de posições posteriores são migradas
 				sp.p[j] = sp.p[j + 1];
 			}
 			countPart--;
@@ -126,6 +126,7 @@ void atualizaParticula() {
 
 void geraParticula() {
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+	std::cout << "gera particula" << std::endl;
 	if (countPart <1000 && !atualizarParticula) {
 		 antigoCount = countPart;
 		for (int i = countPart; i < (antigoCount + 9) && (antigoCount+9)<1000; i++) {

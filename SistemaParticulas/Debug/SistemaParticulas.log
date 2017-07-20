@@ -4,6 +4,6 @@ c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.
 c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(57): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(80): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(84): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(132): warning C4244: 'initializing': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\usuário\documents\github\sistemaparticulas\sistemaparticulas\mscctami.cpp(133): warning C4244: 'initializing': conversion from 'int' to 'GLfloat', possible loss of data
   SistemaParticulas.vcxproj -> C:\Users\Usuário\Documents\GitHub\SistemaParticulas\SistemaParticulas\Debug\SistemaParticulas.exe
   SistemaParticulas.vcxproj -> C:\Users\Usuário\Documents\GitHub\SistemaParticulas\SistemaParticulas\Debug\SistemaParticulas.pdb (Partial PDB)
