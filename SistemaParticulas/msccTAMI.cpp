@@ -46,8 +46,8 @@ void trataColisao(Particula part, int indice) {
 	if (indice <= floor(countPart / 2)) {
 		for (int i = 0; i < countPart; i++) {//procura entre todas as partículas
 			Ponto k = auxColisao[i];
-			double distancia_y = sqrt(pow(part.posicao.y - k.y,2));
-			double distancia_x = sqrt(pow(part.posicao.x - k.x,2));
+			double distancia_y = abs(part.posicao.y - k.y);
+			double distancia_x = abs(part.posicao.x - k.x);
 			if (indice - 1 != i && k.y <= part.posicao.y+4 &&
 				k.y>=part.posicao.y-4) {
 				sp.p[i].posicao.y = sp.p[i].posicao.y + distancia_y;//usa o valor da distância no eixo entre os dois pontos para atualizar a posição da partícula
@@ -59,8 +59,8 @@ void trataColisao(Particula part, int indice) {
 			//colisão nos obstáculos
 			for (int a = 0; a < 15; a++) {
 				Ponto aux = obstaculos[a];
-				double distancia_y = sqrt(pow(part.posicao.y - aux.y, 2));
-				double distancia_x = sqrt(pow(part.posicao.x - aux.x, 2));
+				double distancia_y = abs(part.posicao.y - aux.y);
+				double distancia_x = abs(part.posicao.x - aux.x);
 				if (distancia_y <= 2 && distancia_x > 2) {
 					sp.p[i].posicao.x = sp.p[i].posicao.x + 2;
 				}
@@ -73,8 +73,8 @@ void trataColisao(Particula part, int indice) {
 	else {
 		for (int j = countPart - 1; j > -1; j--) {//procura de trás pra frente
 			Ponto k = auxColisao[j];
-			double distancia_y = sqrt(pow(part.posicao.y - k.y, 2));
-			double distancia_x = sqrt(pow(part.posicao.x - k.x, 2));
+			double distancia_y = abs(part.posicao.y - k.y);
+			double distancia_x = abs(part.posicao.x - k.x);
 			if (indice - 1 != j && k.y <= part.posicao.y + 3 &&
 				k.y >= part.posicao.y - 3) {//indice-1 é o índice da partícula part
 				sp.p[j].posicao.y = sp.p[j].posicao.y + distancia_y;
@@ -86,8 +86,8 @@ void trataColisao(Particula part, int indice) {
 			//colisão nos obstáculos
 			for (int a = 0; a < 9; a++) {
 				Ponto aux = obstaculos[a];
-				double distancia_y = sqrt(pow(part.posicao.y - aux.y, 2));
-				double distancia_x = sqrt(pow(part.posicao.x - aux.x, 2));
+				double distancia_y = abs(part.posicao.y - aux.y);
+				double distancia_x = abs(part.posicao.x - aux.x);
 				if (distancia_y <= 4 && distancia_x>4) {
 					sp.p[j].posicao.x = sp.p[j].posicao.x + 1;
 				}
@@ -216,7 +216,7 @@ int main(int argc, char **argv)
 	sp.origem.y = 2;
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(700, 700);
 	glutCreateWindow("teste");
 	glutDisplayFunc(geraParticula);
 	myinit();
