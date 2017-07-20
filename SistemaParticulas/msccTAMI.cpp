@@ -87,7 +87,7 @@ void atualizaParticula() {
 			trataColisao(sp.p[i], i + 1);
 		}
 		else {
-			for (int j = i; j < countPart - 2; j++) { //todas as partículas de posições posteriores são migradas
+			for (int j = i; j < countPart - 1; j++) { //todas as partículas de posições posteriores são migradas
 				sp.p[j] = sp.p[j + 1];
 			}
 			countPart--;
@@ -161,7 +161,6 @@ void handleSpecialKeyboard(int key, int x, int y) {
 }*/
 
 void myinit() {
-	std::cout << "cheguei no myinit" << std::endl;
 	glClearColor(0, 0, 0, 0); 
 	glDisable(GL_DEPTH_TEST);
 	glMatrixMode(GL_PROJECTION);
