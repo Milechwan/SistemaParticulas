@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 
-
+#define FPS 40
 struct Ponto {
 	GLfloat x;
 	GLfloat y;

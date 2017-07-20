@@ -3,7 +3,7 @@ using namespace std;
 int countPart = 0; //contador de particulas
 Ponto auxColisao[1000];
 int antigoCount;
-Ponto obstaculos[15];
+Ponto obstaculos[9];
 GLfloat window_width = 500;
 GLfloat window_height = 500;
 int countMortas;
@@ -32,7 +32,7 @@ bool mataParticula(Particula p) { //verifica se a partícula já passou da tela
 	return retorno;
 }
 
-void myreshape(GLsizei w, GLsizei h)
+/*void myreshape(GLsizei w, GLsizei h)
 {
 glViewport(0, 0, w, h);
 glMatrixMode(GL_PROJECTION);
@@ -40,7 +40,7 @@ glLoadIdentity();
 window_width = (GLfloat)w;
 window_height = (GLfloat)h;
 glOrtho(0, window_width, 0, window_height, -1.0, -1.0);
-}
+}*/
 
 void trataColisao(Particula part, int indice) {
 	if (indice <= floor(countPart / 2)) {
@@ -52,8 +52,8 @@ void trataColisao(Particula part, int indice) {
 				k.y>=part.posicao.y-4) {
 				sp.p[i].posicao.y = sp.p[i].posicao.y + distancia_y;//usa o valor da distância no eixo entre os dois pontos para atualizar a posição da partícula
 			}
-			else if (indice - 1 != i && k.x <= part.posicao.x + 4 &&
-				k.x >= part.posicao.x - 4) {
+			else if (indice - 1 != i && k.x <= part.posicao.x + 3 &&
+				k.x >= part.posicao.x - 3) {
 				sp.p[i].posicao.x = sp.p[i].posicao.x + distancia_x;
 			}
 			//colisão nos obstáculos
@@ -75,24 +75,24 @@ void trataColisao(Particula part, int indice) {
 			Ponto k = auxColisao[j];
 			double distancia_y = sqrt(pow(part.posicao.y - k.y, 2));
 			double distancia_x = sqrt(pow(part.posicao.x - k.x, 2));
-			if (indice - 1 != j && k.y <= part.posicao.y + 4 &&
-				k.y >= part.posicao.y - 4) {//indice-1 é o índice da partícula part
+			if (indice - 1 != j && k.y <= part.posicao.y + 3 &&
+				k.y >= part.posicao.y - 3) {//indice-1 é o índice da partícula part
 				sp.p[j].posicao.y = sp.p[j].posicao.y + distancia_y;
 			}
-			else if (indice - 1 != j && k.x <= part.posicao.x + 4 &&
-				k.x >= part.posicao.x - 4) {
+			else if (indice - 1 != j && k.x <= part.posicao.x + 3 &&
+				k.x >= part.posicao.x - 3) {
 				sp.p[j].posicao.x = sp.p[j].posicao.x + distancia_x;
 			}
 			//colisão nos obstáculos
-			for (int a = 0; a < 15; a++) {
+			for (int a = 0; a < 9; a++) {
 				Ponto aux = obstaculos[a];
 				double distancia_y = sqrt(pow(part.posicao.y - aux.y, 2));
 				double distancia_x = sqrt(pow(part.posicao.x - aux.x, 2));
-				if (distancia_y <= 2 && distancia_x>2) {
-					sp.p[j].posicao.x = sp.p[j].posicao.x + 2;
+				if (distancia_y <= 4 && distancia_x>4) {
+					sp.p[j].posicao.x = sp.p[j].posicao.x + 1;
 				}
-				else if (distancia_y > 2 && distancia_x <= 2) {
-					sp.p[j].posicao.y = sp.p[j].posicao.y + 2;
+				else if (distancia_y > 4 && distancia_x <= 4) {
+					sp.p[j].posicao.y = sp.p[j].posicao.y + 1;
 				}
 			}
 		}
@@ -102,7 +102,7 @@ void atualizaParticula() {
 	for (int i = 0; i < countPart; i++) {
 		if (!mataParticula(sp.p[i])) {//primeiro verifica se a partícula vai ser eliminada
 			sp.p[i].posicao.x = sp.p[i].posicao.x + sp.p[i].velocidade.x;
-			sp.p[i].posicao.y = sp.p[i].posicao.y + sp.p[i].velocidade.y;
+			sp.p[i].posicao.y = sp.p[i].posicao.y + (rand() % 3)+sp.p[i].velocidade.y;
 			//atualiza posições levando em conta somente velocidade
 			Ponto aux = {};
 			aux.x = sp.p[i].posicao.x;
@@ -111,7 +111,7 @@ void atualizaParticula() {
 			trataColisao(sp.p[i], i + 1);
 		}
 		else {
-			for (int j = i; j < countPart - 2; j++) { //todas as partículas de posições posteriores são migradas
+			for (int j = i; j < countPart - 1; j++) { //todas as partículas de posições posteriores são migradas
 				sp.p[j] = sp.p[j + 1];
 			}
 			countPart--;
@@ -124,16 +124,16 @@ void atualizaParticula() {
 	}
 }
 
-void geraParticula() {
+void geraParticula(void) {
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
-	std::cout << "gera particula" << std::endl;
+	std::cout << "Particulas: "<<countPart << std::endl;
 	if (countPart <1000 && !atualizarParticula) {
 		 antigoCount = countPart;
 		for (int i = countPart; i < (antigoCount + 9) && (antigoCount+9)<1000; i++) {
 			GLfloat aux_x = (rand() % 400) + 1;
 			GLfloat aux_y = sp.getOrigem().y;
 			glColor3f(0.5, 0.5, 0.5);
-			glPointSize(3.0f);
+			glPointSize(4.0f);
 			glBegin(GL_POINTS);
 			glVertex2f(aux_x, aux_y); //gera partícula com ponto 2d
 			glEnd();
@@ -145,7 +145,7 @@ void geraParticula() {
 			GLfloat aux_x = sp.p[j].posicao.x;
 			GLfloat aux_y = sp.p[j].posicao.y;
 			glColor3f(0.5, 0.5, 0.5);
-			glPointSize(3.0f);
+			glPointSize(4.0f);
 			glBegin(GL_POINTS);
 			glVertex2f(aux_x, aux_y); 
 			glEnd();
@@ -158,15 +158,15 @@ void geraParticula() {
 			GLfloat ax = sp.p[i].posicao.x;
 			GLfloat ay = sp.p[i].posicao.y;
 			glColor3f(0.5, 0.5, 0.5);
-			glPointSize(3.0f);
+			glPointSize(4.0f);
 			glBegin(GL_POINTS);
 			glVertex2f(ax, ay); 
 			glEnd();
 		}
 	}
-	for (int a = 0; a < 15; a++) {
+	for (int a = 0; a < 9; a++) { //desenhando os obstáculos
 		glColor3f(0.0, 1.0, 0.0);
-		glPointSize(2.0f);
+		glPointSize(3.0f);
 		glBegin(GL_POINTS);
 		glVertex2f(obstaculos[a].x, obstaculos[a].y);
 		glEnd();
@@ -180,17 +180,11 @@ void handleSpecialKeyboard(int key, int x, int y) {
 	}
 }
 
-/*void loop(int id)
+void loop(int id)
 {
-	if (estado == MODIFIED) {
-		geraParticula();
-		estado = IDLE;
-	}
-	else if (estado != IDLE) {
-		geraParticula();
-	}
-	glutTimerFunc(1000 / FPS, loop, id);
-}*/
+	glutPostRedisplay();
+	glutTimerFunc(FPS*10, loop, id);
+}
 
 void myinit() {
 	glClearColor(0, 0, 0, 0); 
@@ -210,15 +204,9 @@ void myinit() {
 	}
 	obstaculos[5].x = 100;
 	obstaculos[5].y = 100;
-	for (int k = 6; k < 10; k++) {//obstáculo 2
+	for (int k = 6; k < 9; k++) {//obstáculo 2
 		obstaculos[k].x = 100;
 		obstaculos[k].y = obstaculos[k - 1].y + 2;
-	}
-	obstaculos[10].x = 300;
-	obstaculos[10].y = 300;
-	for (int w = 11; w < 15; w++) {//obstáculo 3
-		obstaculos[w].x = obstaculos[w - 1].x + 2;
-		obstaculos[w].y = obstaculos[w - 1].y + 2;
 	}
 }
 
@@ -232,12 +220,14 @@ int main(int argc, char **argv)
 	glutCreateWindow("teste");
 	glutDisplayFunc(geraParticula);
 	myinit();
+	//glutIdleFunc(geraParticula);
 	glutSpecialUpFunc(handleSpecialKeyboard);
 	GLenum err = glewInit();
 	if (GLEW_OK != err) {
 		std::cout << "Glew error" << std::endl;
 		return 1;
 	}
+	loop(1);
 	glutMainLoop();
 	return 0;
 }
